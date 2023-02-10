@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\PostCreated;
+use App\Http\Controllers\SiteController;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,4 @@ Route::get('/create-post', function () {
     return 'tudo certo!';
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [SiteController::class, 'index']);

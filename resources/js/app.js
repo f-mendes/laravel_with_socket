@@ -6,7 +6,9 @@ import VueToastify from 'vue-toastify'
 
 Vue.use(VueToastify)
 
+Vue.component('posts', require('./components/Posts/Posts.vue').default);
+
 const app = new Vue({
     el: '#app'
-    , router, render: h => h(App)
+    //, router, render: h => h(app)
 })
