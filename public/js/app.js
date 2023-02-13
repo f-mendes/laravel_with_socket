@@ -2144,10 +2144,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../bus */ "./resources/js/bus.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
-    this.loadPost();
+    var _this = this;
+    this.loadPost(), _bus__WEBPACK_IMPORTED_MODULE_1__["default"].$on('post', function (post) {
+      return _this.posts.data.unshift(post);
+    });
   },
   data: function data() {
     return {
@@ -2158,11 +2163,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     loadPost: function loadPost() {
-      var _this = this;
+      var _this2 = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/posts').then(function (response) {
-        _this.posts = response.data;
+        _this2.posts = response.data;
       })["catch"](function (response) {
-        _this.$vToastify.error('Falha ao carregar os posts');
+        _this2.$vToastify.error('Falha ao carregar os posts');
       });
     }
   }
@@ -2185,10 +2190,15 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("h1", [_vm._v("Posts")]), _vm._v(" "), _vm._l(_vm.posts.data, function (post, index) {
+  return _c("div", [_c("h1", {
+    staticClass: "text-center text-3x1 uppercase font-black py-8"
+  }, [_vm._v("Posts")]), _vm._v(" "), _vm._l(_vm.posts.data, function (post, index) {
     return _c("div", {
-      key: index
-    }, [_vm._v("\n        " + _vm._s(post.name) + "\n        "), _c("hr")]);
+      key: index,
+      staticClass: "bg-inherit p-4 my-4 rounded-xl border-solid border-2 border-neutral-800 shadow-xl"
+    }, [_c("p", {
+      staticClass: "break-words"
+    }, [_vm._v(_vm._s(post.name))])]);
   })], 2);
 };
 var staticRenderFns = [];
@@ -2205,12 +2215,13 @@ render._withStripped = true;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _bus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bus */ "./resources/js/bus.js");
+
 
 window.Echo.channel('laravel_database_post_created').listen('PostCreated', function (e) {
-  console.log(e);
-  console.log(e.post);
-  vue__WEBPACK_IMPORTED_MODULE_0__["default"].$vToastify.success("T\xEDtulo do post ".concat(e.post.title), 'Novo Post');
+  _bus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('post', e.post);
+  vue__WEBPACK_IMPORTED_MODULE_1__["default"].$vToastify.success("T\xEDtulo do post ".concat(e.post.name), 'Novo Post');
 });
 
 /***/ }),
@@ -2281,6 +2292,23 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   host: window.location.hostname + ':6001'
 });
 __webpack_require__(/*! ./Echo.js */ "./resources/js/Echo.js");
+
+/***/ }),
+
+/***/ "./resources/js/bus.js":
+/*!*****************************!*\
+  !*** ./resources/js/bus.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue__WEBPACK_IMPORTED_MODULE_0__["default"]());
 
 /***/ }),
 
